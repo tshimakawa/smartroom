@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const exec = require('child_process').exec;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -48,9 +49,14 @@ app.use(function(err, req, res, next) {
 const player = require('play-sound')();
 player.play('./public/sounds/Button/btn01.mp3', err => {
 	    if (err) {
-		    throw err;
+		    console.log(err);
 	    }
 
+});
+
+exec('irsend SEND_ONCE smartroom LightOFF', (err, stdout, stderr) => {
+	  if (err) { console.log(err); }
+	  console.log(stdout);
 });
 
 module.exports = app;
